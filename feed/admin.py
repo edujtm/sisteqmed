@@ -1,3 +1,47 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Atividade, Equipamento, InstanciaEquipamento, Setor, Status
+
+
+admin.site.register(Status)
+
+
+class StatusInline(admin.TabularInline):
+    model = Status
+    extra = 0
+
+
+@admin.register(Atividade)
+class AtividadeAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'inicio', 'concluido', 'responsavel')
+    list_filter = ('concluido', 'responsavel__username', 'prioridade')
+
+    fieldsets = (
+        ('Descricao',
+         {'fields': ['equipamento', 'responsavel', 'prioridade']}),
+        ('Status',
+         {'fields': ['inicio', 'concluido', 'justificativa']})
+    )
+
+    inlines = [StatusInline]
+
+
+@admin.register(InstanciaEquipamento)
+class InstanciaEquipamentoAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'defeito', 'setor')
+    list_filter = ('setor', )
+
+
+class InstanceEquipamentoInline(admin.TabularInline):
+    model = InstanciaEquipamento
+
+
+@admin.register(Equipamento)
+class EquipamentoAdmin(admin.ModelAdmin):
+
+    inlines = [InstanceEquipamentoInline]
+
+
+@admin.register(Setor)
+class SetorAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'telefone')

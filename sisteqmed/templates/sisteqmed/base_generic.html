@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>Starter Template - Materialize</title>
+
+    <!-- CSS  -->
+    {% load static %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static "css/materialize.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    {% block css-links %}{% endblock %}
+</head>
+<body>
+
+<nav class="teal accent-4" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="{% url "home-page" %}" class="brand-logo">SisTeqMed</a>
+        <ul class="right hide-on-med-and-down">
+            {% block nav-items %}
+                <li><a href="#">Login</a></li>
+            {% endblock %}
+        </ul>
+
+        <ul id="nav-mobile" class="sidenav">
+            {% block nav-items-mobile %}
+                <li><a href="#">Login</a></li>
+            {% endblock %}
+        </ul>
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+</nav>
+
+{% block content %}
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br><br>
+            <h1 class="header center teal-text accent-4">SisTeqMed</h1>
+            <div class="row center">
+                <h5 class="header col s12 light" id="impact">Gerencie o inventário do seu hospital facilmente.</h5>
+            </div>
+            <div class="row center" id="home-button-row">
+                <a href="http://materializecss.com/getting-started.html" id="download-button"
+                   class="btn-large waves-effect waves-light green accent-4">Fazer Login</a>
+                <a href="http://materializecss.com/getting-started.html" id="download-button"
+                   class="btn-large waves-effect waves-light green accent-4">Solicitar Conta</a>
+            </div>
+            <br><br>
+
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="section">
+
+            <!--   Icon Section   -->
+            <div class="row">
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center teal-text accent-4"><i class="material-icons">personal_video</i></h2>
+                        <h5 class="center">Acompanhe reparos em tempo real</h5>
+
+                        <p class="light">Todas as informações sobre seu inventário listadas e acompanhe o status de
+                            acordo com as atividades da equipe técnica.</p>
+                    </div>
+                </div>
+
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center teal-text accent-4"><i class="material-icons">group</i></h2>
+                        <h5 class="center">Organize sua equipe</h5>
+
+                        <p class="light">Funcionalidade aqui.</p>
+                    </div>
+                </div>
+
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center teal-text accent-4"><i class="material-icons">settings</i></h2>
+                        <h5 class="center">Funcionalidade</h5>
+
+                        <p class="light">Funcionalidade aqui.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <br><br>
+    </div>
+{% endblock %}
+<!--  Scripts-->
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="{% static "js/materialize.js" %}"></script>
+<script src="{% static "js/init.js" %}"></script>
+{% block js-script %}{% endblock %}
+</body>
+</html>

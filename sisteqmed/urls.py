@@ -19,10 +19,12 @@ from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
 
+from sisteqmed import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('feed/', include('feed.urls')),
-    path('', RedirectView.as_view(url='/feed/', permanent=True)),
+    path('', views.index, name='home-page'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

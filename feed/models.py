@@ -13,7 +13,10 @@ class Atividade(models.Model):
     responsavel = models.ForeignKey(User, null=True, on_delete=models.SET_NULL,
                                     limit_choices_to={'groups__name__in': ['administrador', 'profissional da saude']})
 
-    equipamento = models.ForeignKey('InstanciaEquipamento', null=True, on_delete=models.SET_NULL)
+    inst_equipamento = models.ForeignKey('InstanciaEquipamento', null=True, on_delete=models.SET_NULL)
+    defeito = models.CharField(max_length=150, default="Sem descrição do defeito",
+                               help_text='Breve descrição do defeito do equipamento. (máx. 150 caracteres)')
+
 
     PRIORIDADES = (
         (1, 'Baixa'),
@@ -67,8 +70,6 @@ class Equipamento(models.Model):
 class InstanciaEquipamento(models.Model):
     num_de_serie = models.AutoField(primary_key=True)
     equipamento = models.ForeignKey(Equipamento, on_delete=models.PROTECT)
-    defeito = models.CharField(max_length=150, default="Sem defeitos",
-                               help_text='Breve descrição do defeito deste equipamento. (máx. 150 caracteres)')
 
     setor = models.ForeignKey('Setor', null=True, on_delete=models.SET_NULL)
 

@@ -18,9 +18,9 @@ class AtividadeAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Descricao',
-         {'fields': ['equipamento', 'responsavel', 'prioridade']}),
+         {'fields': ['inst_equipamento', 'responsavel', 'prioridade']}),
         ('Status',
-         {'fields': ['inicio', 'concluido', 'justificativa']})
+         {'fields': ['inicio', 'concluido', 'defeito']})
     )
 
     inlines = [StatusInline]
@@ -28,7 +28,7 @@ class AtividadeAdmin(admin.ModelAdmin):
 
 @admin.register(InstanciaEquipamento)
 class InstanciaEquipamentoAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'defeito', 'setor')
+    list_display = ('__str__', 'setor')
     list_filter = ('setor', )
 
 

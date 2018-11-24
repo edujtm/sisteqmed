@@ -1,19 +1,15 @@
 
 from django.shortcuts import render, redirect
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Atividade, Equipamento, InstanciaEquipamento
 
 
-class AtividadeListView(generic.ListView):
+class AtividadeListView(LoginRequiredMixin, generic.ListView):
     model = Atividade
     template_name = 'feed/feed_page.html'
-    paginate_by = 15
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return super(AtividadeListView, self).get(request, **kwargs)
-        return redirect('home-page')
+    paginate_by = 10
 
 
 class EquipamentoListView(generic.ListView):
@@ -21,4 +17,6 @@ class EquipamentoListView(generic.ListView):
     template_name = 'feed/lista_inventario.html'
 
 
-# TODO adicionar view para detalhes do equipamento
+class InstEquipamentoDetailView(generic.DetailView):
+    model = InstanciaEquipamento
+    template_name = "feed/detail_inventario.html"

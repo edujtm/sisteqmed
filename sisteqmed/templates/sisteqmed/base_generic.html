@@ -21,15 +21,17 @@
 
                 {% load check_group %}
                 {% if request.user.is_authenticated %}
-                    <li>{{ user.get_username }}</li>
+                    <li><a href="#">{{ user.get_username }}</a></li>
                     {% if request.user|has_group:"administrador" %}
+                        <li><a href="{% url 'index-page' %}">Atividades</a></li>
+                        <li><a href="{% url 'inventario-list' %}">Equipamentos</a></li>
                         <li><a href="#">Cadastrar</a></li>
-                        <li><a href="#">Atividades</a></li>
                     {% elif request.user|has_group:"tecnico"%}
                         <!-- TODO completar navigation bar -->
                     {% endif %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
-                    <li><a href="{% url "home-page" %}">Login</a></li>
+                    <li><a href="{% url "login" %}">Login</a></li>
                 {% endif %}
 
             {% endblock %}
@@ -53,7 +55,7 @@
                 <h5 class="header col s12 light" id="impact">Gerencie o inventário do seu hospital facilmente.</h5>
             </div>
             <div class="row center" id="home-button-row">
-                <a href="http://materializecss.com/getting-started.html" id="download-button"
+                <a href="{% url 'login' %}" id="download-button"
                    class="btn-large waves-effect waves-light green accent-4">Fazer Login</a>
                 <a href="http://materializecss.com/getting-started.html" id="download-button"
                    class="btn-large waves-effect waves-light green accent-4">Solicitar Conta</a>
@@ -101,6 +103,28 @@
         </div>
         <br><br>
     </div>
+{% endblock %}
+
+{% block pagination %}
+    {% if is_paginated %}
+        <div class="container">
+            <ul class="pagination center">
+            {% if page_obj.has_previous %}
+                <li class="waves-effect"><a href="{{ request.path }}?page={{ page_obj.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+            {% else %}
+                <li class="disabled"><a href="#"><i class="material-icons">chevron_left</i></a></li>
+            {% endif %}
+
+            <li class="active"><a href="#">{{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</a></li>
+
+            {% if page_obj.has_next %}
+                <li class="waves-effect"><a href="{{ request.path }}?page={{ page_obj.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+            {% else %}
+                <li class="disabled"><a href="#"><i class="material-icons">chevron_right</i></a></li>
+            {% endif %}
+            </ul>
+        </div>
+    {% endif %}
 {% endblock %}
 <!--  Scripts-->
 

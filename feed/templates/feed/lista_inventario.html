@@ -11,7 +11,7 @@
                 <div class="col s12">
                 <ul class="collection">
                     {% for equipamento in instanciaequipamento_list %}
-                        <li class="collection-item"><div>{{ equipamento }}<a href="#" class="secondary-content"><i class="material-icons">more_vert</i></a></div></li>
+                        <li class="collection-item"><div>{{ equipamento }}<a href="{% url "inventario-detail" equipamento.num_de_serie %}" class="secondary-content"><i class="material-icons">more_vert</i></a></div></li>
                     {% endfor %}
                 </ul>
                 </div>
@@ -23,12 +23,10 @@
         </div>
     {% endif %}
 
+    <!-- TODO adicionar formulario para adicionar item -->
     <div class="fixed-action-btn">
-        <a class="waves-effect waves-light btn teal">
-            Adicionar equipamento
-        </a>
-        <a class="waves-effect waves-light btn teal">
-            Cadastrar equipamento
+        <a class="btn-floating btn-large teal" href="{% url "home-page" %}">
+            <i class="large material-icons">add</i>
         </a>
     </div>
 

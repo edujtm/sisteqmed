@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-    <title>Starter Template - Materialize</title>
+    <title>SisTeqMed</title>
 
     <!-- CSS  -->
     {% load static %}
@@ -18,7 +18,20 @@
     <div class="nav-wrapper container"><a id="logo-container" href="{% url "home-page" %}" class="brand-logo">SisTeqMed</a>
         <ul class="right hide-on-med-and-down">
             {% block nav-items %}
-                <li><a href="#">Login</a></li>
+
+                {% load check_group %}
+                {% if request.user.is_authenticated %}
+                    <li>{{ user.get_username }}</li>
+                    {% if request.user|has_group:"administrador" %}
+                        <li><a href="#">Cadastrar</a></li>
+                        <li><a href="#">Atividades</a></li>
+                    {% elif request.user|has_group:"tecnico"%}
+                        <!-- TODO completar navigation bar -->
+                    {% endif %}
+                {% else %}
+                    <li><a href="{% url "home-page" %}">Login</a></li>
+                {% endif %}
+
             {% endblock %}
         </ul>
 

@@ -17,7 +17,6 @@ class Atividade(models.Model):
     defeito = models.CharField(max_length=150, default="Sem descrição do defeito",
                                help_text='Breve descrição do defeito do equipamento. (máx. 150 caracteres)')
 
-
     PRIORIDADES = (
         (1, 'Baixa'),
         (2, 'Media'),

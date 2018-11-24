@@ -1,0 +1,35 @@
+{% extends "sisteqmed/base_generic.html" %}
+
+{% block content %}
+    <div class="container">
+        <h3 class="header teal-text accent-4">Inventário</h3>
+    </div>
+
+    {% if instanciaequipamento_list %}
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                <ul class="collection">
+                    {% for equipamento in instanciaequipamento_list %}
+                        <li class="collection-item"><div>{{ equipamento }}<a href="#" class="secondary-content"><i class="material-icons">more_vert</i></a></div></li>
+                    {% endfor %}
+                </ul>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="container">
+            <p class="center teal-text accent-4">Nenhum equipamento cadastrado</p>
+        </div>
+    {% endif %}
+
+    <div class="fixed-action-btn">
+        <a class="waves-effect waves-light btn teal">
+            Adicionar equipamento
+        </a>
+        <a class="waves-effect waves-light btn teal">
+            Cadastrar equipamento
+        </a>
+    </div>
+
+{% endblock %}

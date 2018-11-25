@@ -36,7 +36,7 @@
                                             <td class="teal-text">Local</td>
                                         </tr>
                                         <tr>
-                                            <td>{{ atividade.prioridade }}</td>
+                                            <td>{{ atividade.get_prioridade_display }}</td>
                                             <td>
                                                 {% if atividade.inst_equipamento %}{{ atividade.inst_equipamento.equipamento.nome}}{% else %}Não especificado{% endif %}
                                             </td>
@@ -91,6 +91,27 @@
                                         </tr>
                                     {% endfor %}
                                 </table>
+
+                                {% load check_group %}
+                                {% if request.user|has_group:"tecnico" and not atividade.concluido %}
+
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="input-field col s8">
+                                                <input type="hidden" value="{{ atividade.id }}" name="atividade-id">
+                                                <!--<textarea id="status" class="materialize-textarea" name="status-value"></textarea>-->
+                                                {{ form.descricao }}
+                                                <label for="status">Novo status</label>
+                                            </div>
+                                            <div class="input-field col s4">
+                                                <button class="waves-effect waves-light btn" type="submit">Adicionar</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <a class="waves-effect waves-light btn" href="{% url 'confirm-conclude' atividade.id %}">Concluir</a>
+
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -103,6 +124,14 @@
 
         {% endif %}
     </div>
+
+    {% if request.user|has_group:"administrador" or request.user|has_group:"profissional da saude" %}
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large teal" href="{% url "create-atividade" %}">
+                <i class="large material-icons">add</i>
+            </a>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block js-script %}

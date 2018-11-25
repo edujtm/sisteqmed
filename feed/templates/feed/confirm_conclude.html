@@ -1,0 +1,55 @@
+{% extends "sisteqmed/base_generic.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <h3>Deseja concluir a atividade:</h3>
+        <div class="row">
+            <div class="col s12 z-depth-3">
+                <h5>{{ atividade }}</h5>
+                <p><span class="teal-text">Responsável:</span> {{ atividade.responsavel.first_name }} {{ atividade.responsavel.last_name }}</p>
+                <p>
+                    <span class="teal-text">Equipamento:</span>
+                    {% if atividade.inst_equipamento %}{{ atividade.inst_equipamento }}{% else %} Não especificado {% endif %}
+                </p>
+                <h5>Descrição</h5>
+                <p>{{ atividade.defeito }}</p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <label> Atividade foi concluida com sucesso?</label>
+                    <div class="switch">
+                        <label>
+                            Não
+                            {{ form.concluido }}
+                            <span class="lever"></span>
+                            Sim
+                        </label>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12" id="justificativa-div">
+                            {{ form.justificativa }}
+                            <label for="justificativa">Qual o motivo da atividade não ter sido concluida com sucesso?</label>
+                            {% if form.justificativa.errors %}
+                                {% for error in form.justificativa.errors %}
+                                    <span class="helper-text red-text darken-4"  data-success="right">{{ error }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button class="waves-effect waves-light btn" type="submit">Concluir</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js-script %}
+    {% load static %}
+    <script src="{% static "feed/js/confirm_activity.js" %}"></script>
+{% endblock %}

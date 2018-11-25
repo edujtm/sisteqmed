@@ -16,7 +16,7 @@ class DontKnowTheFrameworkTest(TestCase):
     def setUp(self):
         test_user1 = User.objects.create_user(username="koopa", password="troopa")
         test_user2 = User.objects.create_user(username="peach", password="princess")
-        admin_group = Group.objects.get(name='administrador')
+        admin_group = Group.objects.get(name="administrador")
         test_user1.groups.set([admin_group])
         test_user2.groups.set([])
 
@@ -52,7 +52,7 @@ class DontKnowTheFrameworkTest(TestCase):
         atividade1 = Atividade.objects.create(
             responsavel=test_user1,
             prioridade=4,
-            equipamento=inst_equipamento,
+            inst_equipamento=inst_equipamento,
         )
 
         for i in range(10):
@@ -62,7 +62,7 @@ class DontKnowTheFrameworkTest(TestCase):
             )
 
     def test_responsavel_nao_administrador(self):
-        user = User.objects.get(username__exact="peach")
+        user = User.objects.get(username='peach')
 
         atividade2 = Atividade.objects.create(
             responsavel=user,
@@ -76,7 +76,7 @@ class DontKnowTheFrameworkTest(TestCase):
         atividade = Atividade.objects.get(pk=1)
         self.assertEqual(atividade.responsavel.username, "koopa")
 
-        responsavel = User.objects.get(username__exact="koopa")
+        responsavel = User.objects.get(username='koopa')
         responsavel.delete()
 
         atividade = Atividade.objects.get(pk=1)

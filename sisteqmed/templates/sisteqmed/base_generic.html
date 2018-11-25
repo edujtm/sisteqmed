@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-    <title>Starter Template - Materialize</title>
+    <title>SisTeqMed</title>
 
     <!-- CSS  -->
     {% load static %}
@@ -14,23 +14,42 @@
 </head>
 <body>
 
-<nav class="teal accent-4" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="{% url "home-page" %}" class="brand-logo">SisTeqMed</a>
-        <ul class="right hide-on-med-and-down">
-            {% block nav-items %}
-                <li><a href="#">Login</a></li>
-            {% endblock %}
-        </ul>
+<div class="navbar-fixed">
+    <nav class="teal accent-4" role="navigation">
+        <div class="nav-wrapper container"><a id="logo-container" href="{% url "home-page" %}" class="brand-logo">SisTeqMed</a>
+            <ul class="right hide-on-med-and-down">
+                {% block nav-items %}
 
-        <ul id="nav-mobile" class="sidenav">
-            {% block nav-items-mobile %}
-                <li><a href="#">Login</a></li>
-            {% endblock %}
-        </ul>
-        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-    </div>
-</nav>
+                    {% load check_group %}
+                    {% if request.user.is_authenticated %}
+                        <li><a href="#">{{ user.get_username }}</a></li>
+                        <li><a href="{% url 'index-page' %}">Atividades</a></li>
+                        {% if request.user|has_group:"administrador" %}
+                            <li><a href="{% url 'inventario-list' %}">Equipamentos</a></li>
+                            <li><a class="dropdown-trigger" href="#" data-target="dropdown-cadastrar">Cadastrar</a></li>
 
+                            <ul id="dropdown-cadastrar" class="dropdown-content">
+                                <li><a href="{% url 'create-atividade' %}">Atividade</a></li>
+                                <li><a href="{% url 'inventario-create' %}">Equipamento</a></li>
+                            </ul>
+                        {% endif %}
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url "login" %}">Login</a></li>
+                    {% endif %}
+
+                {% endblock %}
+            </ul>
+
+            <ul id="nav-mobile" class="sidenav">
+                {% block nav-items-mobile %}
+                    <li><a href="#">Login</a></li>
+                {% endblock %}
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+</div>
 {% block content %}
     <div class="section no-pad-bot" id="index-banner">
         <div class="container">
@@ -40,9 +59,9 @@
                 <h5 class="header col s12 light" id="impact">Gerencie o inventário do seu hospital facilmente.</h5>
             </div>
             <div class="row center" id="home-button-row">
-                <a href="http://materializecss.com/getting-started.html" id="download-button"
+                <a href="{% url 'login' %}" id="download-button"
                    class="btn-large waves-effect waves-light green accent-4">Fazer Login</a>
-                <a href="http://materializecss.com/getting-started.html" id="download-button"
+                <a href="#" id="download-button"
                    class="btn-large waves-effect waves-light green accent-4">Solicitar Conta</a>
             </div>
             <br><br>
@@ -88,6 +107,28 @@
         </div>
         <br><br>
     </div>
+{% endblock %}
+
+{% block pagination %}
+    {% if is_paginated %}
+        <div class="container">
+            <ul class="pagination center">
+            {% if page_obj.has_previous %}
+                <li class="waves-effect"><a href="{{ request.path }}?page={{ page_obj.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+            {% else %}
+                <li class="disabled"><a href="#"><i class="material-icons">chevron_left</i></a></li>
+            {% endif %}
+
+            <li class="active"><a href="#">{{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</a></li>
+
+            {% if page_obj.has_next %}
+                <li class="waves-effect"><a href="{{ request.path }}?page={{ page_obj.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+            {% else %}
+                <li class="disabled"><a href="#"><i class="material-icons">chevron_right</i></a></li>
+            {% endif %}
+            </ul>
+        </div>
+    {% endif %}
 {% endblock %}
 <!--  Scripts-->
 

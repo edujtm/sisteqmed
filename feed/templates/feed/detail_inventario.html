@@ -1,0 +1,23 @@
+{% extends "sisteqmed/base_generic.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="header teal-text accent-4">Item do Inventário</h2>
+
+        <h5>{{ instanciaequipamento.equipamento.nome }}</h5>
+        <p><span class="teal-text">N° de série:</span> {{ instanciaequipamento.num_de_serie }}</p>
+        <p>
+            <span class="teal-text">Descrição:</span><br/>
+            {{ instanciaequipamento.equipamento.descricao }}
+        </p>
+        <h5>Pertence a:</h5>
+        <div class="row">
+            <div class="col s6">
+                <p><span class="teal-text">Setor:</span> {{ instanciaequipamento.setor.nome }}</p>
+            </div>
+            <div class="col s6">
+                <p><span class="teal-text">Telefone:</span> {{ instanciaequipamento.setor.telefone }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

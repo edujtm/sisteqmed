@@ -1,0 +1,24 @@
+{% extends "sisteqmed/base_generic.html" %}
+
+{% block content %}
+    <div class="container" style="margin-top: 30px">
+        <h4 class="header center teal-text accent-4">Adicionar equipamento ao inventário</h4>
+        <div class="row" style="margin-top: 20px">
+            <div class="col s8 offset-s2 z-depth-3" style="padding: 10px">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <table>
+                        {{ form.as_table }}
+                    </table>
+                    <button class="waves-effect waves-light btn teal" type="submit">Adicionar</button>
+                    <a href="{% url 'equipamento-create' %}" class="waves-effect waves-light btn">Novo equipamento</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js-script %}
+    {% load static %}
+    <script src="{% static "feed/js/form_init.js" %}"></script>
+{% endblock %}

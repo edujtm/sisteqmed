@@ -28,6 +28,9 @@ class Atividade(models.Model):
 
     class Meta:
         ordering = ['inicio']
+        permissions = (("can_add_status", "Adicionar novo status à atividade"),
+                       ('can_finish_activity', "Permissão para concluir atividade"),
+                       ('can_create_activity', 'Permissão para cadastrar atividade'),)
 
     def __str__(self):
         return f"Ordem de servico: {self.id}"
@@ -37,10 +40,12 @@ class Atividade(models.Model):
             return self.finalizado - self.inicio
         return timezone.now() - self.inicio
 
-    def concluir_atividade(self):
+    def concluir(self, just, concluido):
         instance = Atividade.objects.get(pk=self.pk)
-        instance.concluido = models.Value(1)
+        instance.concluido = concluido
         instance.finalizado = timezone.now()
+        instance.justificativa = just
+        instance.status_set.create(descricao="atividade concluida")
         instance.save()
 
 
@@ -62,6 +67,9 @@ class Equipamento(models.Model):
     descricao = models.TextField(max_length=500, help_text="Descricao das caracteristicas do equipamento",
                                  verbose_name="Descrição")
 
+    class Meta:
+        permissions = (('can_create_equipamento', 'Criar novo equipamento'), )
+
     def __str__(self):
         return self.nome
 
@@ -71,6 +79,9 @@ class InstanciaEquipamento(models.Model):
     equipamento = models.ForeignKey(Equipamento, on_delete=models.PROTECT)
 
     setor = models.ForeignKey('Setor', null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        permissions = (('can_add_inventario', 'Adicionar equipamento ao inventario'), )
 
     def __str__(self):
         return f"{self.equipamento} - N° de serie: {self.num_de_serie}"
